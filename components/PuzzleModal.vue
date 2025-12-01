@@ -29,11 +29,8 @@
           class="mb-6 p-4 bg-orange-500 bg-opacity-20 border border-orange-500 rounded-md"
         >
           <p class="text-white font-montserrat font-semibold mb-2">Correct! That's how a Senior Media Buyer thinks.</p>
-          <p class="text-lighttext">
-            Want to automate this?
-            <a href="https://www.capac.pro" target="_blank" class="text-orange-500 underline font-semibold">
-              Check CAPAC
-            </a>
+          <p class="text-lighttext text-sm">
+            Check out our sponsors to learn more about tools that can help automate these insights.
           </p>
         </div>
 

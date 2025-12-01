@@ -1,26 +1,17 @@
 <template>
-  <div class="min-h-screen bg-darkbg">
+  <div class="min-h-screen bg-darkbg lg:pr-72">
+    <!-- Sponsor Panel (renders for both desktop and mobile) -->
+    <SponsorPanel />
+
     <!-- Hero Section -->
     <header class="pt-16 pb-12 px-4 bg-darkbg">
       <div class="max-w-6xl mx-auto text-center">
         <h1 class="text-5xl md:text-7xl font-spartan font-bold text-white mb-6 leading-tight">
           Advent of <span class="text-orange-500">LinkedIn Ads</span>
         </h1>
-        <p class="text-xl md:text-2xl font-montserrat text-muted mb-8">
+        <p class="text-xl md:text-2xl font-montserrat text-muted">
           Master LinkedIn Ads with 24 daily puzzles
         </p>
-
-        <!-- CTA Button with micro-copy -->
-        <div class="inline-block">
-          <a
-            href="https://www.capac.pro"
-            target="_blank"
-            class="inline-block bg-orange-500 hover:bg-orange-600 text-darkbg font-montserrat font-semibold px-8 py-4 rounded-md transition-colors text-lg"
-          >
-            Try CAPAC for Free
-          </a>
-          <p class="text-sm text-muted mt-2">No credit card required</p>
-        </div>
       </div>
     </header>
 
@@ -126,31 +117,15 @@
     <!-- Footer -->
     <footer class="bg-darkcard border-t border-gray-800 text-lighttext py-8 px-4 mt-12">
       <div class="max-w-6xl mx-auto text-center relative">
-        <p class="mb-2 font-montserrat">
-          Built by Charles Murillon |
-          <a
-            href="https://www.capac.pro"
-            target="_blank"
-            class="text-orange-500 hover:underline font-semibold"
-          >
-            Audit your LinkedIn Bids for Free at CAPAC.pro
-          </a>
-        </p>
-        <p class="text-sm text-muted">
-          Want to support this project?
-          <a
-            href="https://buy.stripe.com/test_YOURLINK"
-            target="_blank"
-            class="text-orange-500 hover:underline ml-1"
-          >
-            Pay what you want
-          </a>
+        <p class="mb-2 font-montserrat text-sm text-muted">
+          Built by Charles Murillon & Quentin Van Der Perre | Sponsored by
+          <span class="text-lighttext">CAPAC.pro</span>
         </p>
 
         <!-- Reset Button -->
         <button
           @click="resetProgress"
-          class="mt-4 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-darkbg text-xs font-montserrat font-semibold rounded-md transition-colors"
+          class="mt-3 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-darkbg text-xs font-montserrat font-semibold rounded-md transition-colors"
         >
           Reset Progress
         </button>
@@ -170,7 +145,7 @@
 <script setup lang="ts">
 import type { Puzzle } from '~/composables/usePuzzles'
 
-const { puzzles, loadProgress } = usePuzzles()
+const { puzzles, loadProgress, unlockByDate } = usePuzzles()
 
 const isModalOpen = ref(false)
 const selectedPuzzle = ref<Puzzle | null>(null)
@@ -178,6 +153,7 @@ const selectedPuzzle = ref<Puzzle | null>(null)
 // Load progress from localStorage on mount
 onMounted(() => {
   loadProgress()
+  unlockByDate()
 })
 
 // Computed stats
