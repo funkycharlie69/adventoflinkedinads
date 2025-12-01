@@ -10,416 +10,398 @@ export interface Puzzle {
 
 export const usePuzzles = () => {
   const puzzles = useState<Puzzle[]>('puzzles', () => {
-    // All 24 LinkedIn Ads puzzles
+    // All 24 LinkedIn Ads puzzles - Brand New Content
     const initialPuzzles: Puzzle[] = [
-      // Week 1: The "Intern" (Basic Mechanics & Interface)
       {
         id: 1,
-        title: 'The "Unspecified" Mystery',
+        title: 'The "Candy Crush" Leak',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You launch a campaign targeting "United Kingdom". You check the Demographics report after 3 days. You see 15% of your impressions come from a location called "Unspecified". The client is panicking, thinking these are bots.</p>
+            <p>You are reviewing your delivery report. You see clicks coming from mobile gaming apps and third-party websites, which are resulting in high bounce rates.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>To fix this for the future, you must change the "Location" setting from "Recent or Permanent" to <strong>[BLANK]</strong>.</p>
+            <p>Which specific placement setting must you turn OFF to stop this?</p>
           </div>
         `,
-        answer: /^permanent(\s*location)?$/i,
-        hint: '"Unspecified" in LinkedIn demographics often appears when a user\'s IP (Recent) doesn\'t match their Profile (Permanent). Forcing "Permanent" removes most transient/IP-based matches.',
+        answer: /^(linkedin)?audiencenetwork|lan|l\.?a\.?n\.?$/i,
+        hint: 'Go ahead and turn LAN off. In my experience, it drives a lot of accidental clicks from mobile games rather than high-intent B2B traffic. You want your ads appearing right in the professional news feed.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 2,
-        title: 'The Truncation Trap (Mobile)',
+        title: 'The Boolean Trap',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You are writing copy for a Single Image Ad. You used the full 200 characters allowed in the headline field.</p>
+            <p>You want to target "Marketing Managers" who also know "Sales".</p>
+            <p><strong>Setup A:</strong> Job Title "Marketing Manager" OR Skill "Sales".</p>
+            <p><strong>Setup B:</strong> Job Title "Marketing Manager" AND Skill "Sales".</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>On the LinkedIn mobile app, at approximately how many characters will your headline get cut off (truncated) with "..."? (Pick the closest: 70, 100, 150)</p>
+            <p>Which setup results in a smaller, more specific audience?</p>
           </div>
         `,
-        answer: /^70$/i,
-        hint: 'While the field accepts 200 characters, mobile viewports strictly cut off headlines around ~70-75 characters.',
+        answer: /^(setup)?b|and|b\(and\)$/i,
+        hint: 'Think of it this way: "OR" makes the audience bigger (quantity), "AND" makes it smaller (quality). For this niche target, you definitely want "AND" to ensure they have both qualifications.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 3,
-        title: 'The Logic Gate',
+        title: 'The "Ghost" Visitor',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You are building an audience with these rules:</p>
-            <ul class="list-disc pl-6 space-y-1">
-              <li>Include: Location: "United States"</li>
-              <li>Exclude: Location: "California"</li>
-              <li>Include: Company: "Google" (HQ in California)</li>
-            </ul>
+            <p>You want to retarget people who visited your website. You go to create the audience, but LinkedIn says it can't detect any website traffic.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Does a Google employee living in San Francisco see your ad? (Yes or No)</p>
+            <p>What piece of code is missing from your website?</p>
           </div>
         `,
-        answer: /^no$/i,
-        hint: 'Geographic Exclusions operate at the highest hierarchy. Even if the Company is "Included", the user is physically inside an "Excluded" geo, so they are blocked.',
+        answer: /^insighttag|linkedintag$/i,
+        hint: 'This is non-negotiable! You need to get the Insight Tag installed on your site today. Without it, you\'re flying blind—you can\'t track conversions or build retargeting pools.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 4,
-        title: 'The "Ready" but Dead Audience',
+        title: 'The Match Rate Discrepancy',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You upload a contact list of 290 VIP leads. The match rate is 100%. The status says "Ready". You launch the campaign.</p>
+            <p>You have two CSV lists to upload.</p>
+            <p><strong>List A:</strong> 1,000 Work Email Addresses.</p>
+            <p><strong>List B:</strong> 1,000 Personal Email Addresses.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>The campaign spends $0 after 48 hours. Why? (Hint: minimum size requirement)</p>
+            <p>Which list will likely have a higher match rate?</p>
           </div>
         `,
-        answer: /^(minimum\s*(audience\s*)?size|300|audience\s*size)$/i,
-        hint: 'A Matched Audience must have at least 300 active members to serve ads. "Ready" status just means the processing is done, not that it\'s large enough to serve.',
+        answer: /^(list)?b|personalemail(s)?$/i,
+        hint: 'If you have personal emails, upload them! Match rates on work emails are often low (30-50%) because people link their personal Gmail to their LinkedIn profile, not their corporate Outlook.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 5,
-        title: 'The Test Lead Failure',
+        title: 'The Bidding Trap',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You set up a Lead Gen Form integration with HubSpot. You click the "Send Test Lead" button in Campaign Manager. HubSpot rejects it. You check the field mapping, it is perfect.</p>
+            <p>You launch a new campaign using "Maximum Delivery" (Automated) bidding. By 10:00 AM, your entire daily budget is gone, and the CPC was very high.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Why did HubSpot reject the test?</p>
+            <p>To control costs and pace the budget better, which bidding strategy should you switch to?</p>
           </div>
         `,
-        answer: /^(invalid\s*email|validation\s*rules?|test.*email|email.*validation)$/i,
-        hint: 'LinkedIn\'s test button sends a dummy email (often test@linkedin.com). Many CRM validation rules block this specific domain or format as spam.',
+        answer: /^manual(cpc)?|manualbidding$/i,
+        hint: 'Automated bidding is designed to spend your budget, not save it. I suggest switching to Manual CPC. It gives you control over exactly how much you\'re willing to pay per click, ensuring you don\'t blow the budget before lunch.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 6,
-        title: 'The Language Barrier',
+        title: 'The Personal Email',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>Your target audience is in Germany. You want to run ads in English because they are tech workers.</p>
+            <p>You launch a Lead Gen Form campaign. The first 10 leads come in. 9 of them are @gmail.com or @yahoo.com addresses. The client is annoyed.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>To ensure the ads run, should you set the Campaign Language to German (Location) or English (Ad Copy)?</p>
+            <p>Why did the form capture personal emails instead of work emails?</p>
           </div>
         `,
-        answer: /^english$/i,
-        hint: 'Campaign Language must always match the language of the creative/copy. You target the German Location but set the Profile Language to English to reach English-speaking Germans.',
+        answer: /^profileautofill|autofill$/i,
+        hint: 'Don\'t worry, this is normal. LinkedIn autofills the form with the email the user registered with—which is usually their personal one. The lead quality is often still great; you just need to map it correctly in your CRM.',
         isLocked: true,
         isSolved: false
       },
-
-      // Week 2: The "Manager" (Optimization & Cost)
       {
         id: 7,
-        title: 'The Expensive Title',
+        title: 'The "Expansion" Button',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You want to target Marketing Managers. You have two options:</p>
-            <ul class="list-disc pl-6 space-y-1">
-              <li>Option A: Target Job Title: "Marketing Manager"</li>
-              <li>Option B: Target Job Function: "Marketing" + Seniority: "Manager"</li>
-            </ul>
+            <p>You are targeting a precise list of CFOs. You notice your ads are being shown to "Junior Accountants" and "Financial Students."</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Which option will typically have a lower CPM?</p>
+            <p>You likely left a specific checkbox enabled in the audience section. What is it?</p>
           </div>
         `,
-        answer: /^(option\s*)?b|(function.*seniority|seniority.*function)$/i,
-        hint: 'Job Titles are finite and highly competitive (expensive). "Function" is a broader bucket that captures non-standard titles, increasing supply and lowering CPM.',
+        answer: /^audienceexpansion|expansion$/i,
+        hint: 'I always recommend unchecking this box immediately. You built this audience carefully to reach decision-makers; enabling "Expansion" just dilutes your budget on people who can\'t buy your product. Stick to your quality targets.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 8,
-        title: 'The Video View Myth',
+        title: 'The Cost of Tech',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You are reporting on a video campaign. The client asks for the "Cost Per View" (CPV).</p>
+            <p>You are targeting Tech CEOs in the US. Your CPC is $12.00. The client thinks something is broken because Facebook clicks are $2.00.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>LinkedIn defines a "View" as a user watching for at least <strong>[Number]</strong> continuous seconds with 50% of pixels in view.</p>
+            <p>Is a $12 CPC normal for this audience on LinkedIn? (Yes/No).</p>
           </div>
         `,
-        answer: /^2(\s*seconds?)?$/i,
-        hint: 'This is the industry standard "2-second continuous view" used by LinkedIn billing.',
+        answer: /^yes$/i,
+        hint: 'I know it looks high compared to Facebook, but yes, $12+ is normal for US Tech CEOs. You\'re paying a premium for verified professional data. The intent and quality here are much higher than a $2 generic click.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 9,
-        title: 'The Boolean Order',
+        title: 'The Competitor Block',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You type this into the Job Title field: <code>Manager OR Director AND Sales</code></p>
+            <p>You notice your fiercest competitor is clicking your ads to drain your budget.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>How does LinkedIn interpret this?</p>
-            <ul class="list-disc pl-6 space-y-1 mt-2">
-              <li>A: (Manager OR Director) AND Sales (Sales Managers and Sales Directors)</li>
-              <li>B: Manager OR (Director AND Sales) (All Managers + Sales Directors)</li>
-            </ul>
+            <p>You can't block specific people, but you can upload a list of [What?] to exclude them?</p>
           </div>
         `,
-        answer: /^(option\s*)?b$/i,
-        hint: 'The AND operator has higher precedence than OR. You must use parentheses (Manager OR Director) AND Sales to get result A.',
+        answer: /^companyname(s)?|competitor(exclusion)?(list)?|companies$/i,
+        hint: 'Save your budget for actual prospects. Create a "Competitor Exclusion List" with the company names of your top rivals so they stop seeing (and clicking) your ads.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 10,
-        title: 'The Message Ad "Floor"',
+        title: 'The "Spam" Cap',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You are running a "Sponsored Messaging" (Conversation Ad) campaign.</p>
+            <p>Your boss wants the same user to see your ad 10 times in one day to "ensure they remember us."</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Unlike Sponsored Content which has a floor of ~$2.00+, the minimum "Cost Per Send" (CPS) bid floor is approximately <strong>[Amount]</strong>? (Range: $0.10 - $0.50)</p>
+            <p>Can you force LinkedIn to do this?</p>
           </div>
         `,
-        answer: /^(\$|€)?0?\.?[2-4]0?(\s*(cents?|¢))?$/i,
-        hint: 'The CPS model is much cheaper per unit than CPC, often sitting around 20-40 cents per send.',
+        answer: /^no|frequencycap$/i,
+        hint: 'LinkedIn actually protects you from being "that annoying brand." They cap frequency (usually once every 24-48 hours) to keep the user experience premium. You\'re better off spreading those impressions out over a week.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 11,
-        title: 'The Employee Exclusion',
+        title: 'The Minimum Budget',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You want to exclude your own employees from seeing your ads. You exclude "Company: [Your Company]".</p>
+            <p>You are trying to launch a brand new campaign. You set the daily budget to $8.00. The campaign saves, but shows an error and won't run.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Your CEO still sees the ad. Why?</p>
+            <p>What is the hard minimum daily budget allowed by LinkedIn?</p>
           </div>
         `,
-        answer: /^(ceo.*profile|profile.*not.*link|not.*linked|profile.*incorrect)$/i,
-        hint: 'Company exclusion only works if the employee has selected the official company page from the dropdown in their experience section. If they typed it as plain text, they are not mapped to the ID.',
+        answer: /^\$?10(\.00)?$/i,
+        hint: 'LinkedIn has a strict floor of $10/day per campaign. Honestly, to get statistically significant data quickly, you should usually start a bit higher, but $10 is the absolute minimum to get the engine running.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 12,
-        title: 'The Rolling Cap',
+        title: 'The "Lead Gen" Boost',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You set a Frequency Cap of "3 impressions per 7 days". A user sees your ad 3 times on Tuesday.</p>
+            <p>You are running an A/B test. Campaign A sends traffic to a Landing Page. Campaign B uses a LinkedIn Lead Gen Form.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>When is the earliest they can see it again?</p>
+            <p>Based on benchmarks, Campaign B (Lead Gen Form) will convert at 10-20%. What is the typical conversion rate for Campaign A (Landing Page)?</p>
           </div>
         `,
-        answer: /^(next\s*)?tuesday$/i,
-        hint: 'LinkedIn frequency caps use a rolling window, not a calendar week (Mon-Sun).',
+        answer: /^2-5%?|2to5%?$/i,
+        hint: 'Native Lead Gen Forms almost always win on conversion rate—often hitting 10-20%. Landing pages add friction (load times, mobile formatting), so you will usually see them sit closer to 2-5%.',
         isLocked: true,
         isSolved: false
       },
-
-      // Week 3: The "Tech Lead" (Tracking & Retargeting)
       {
         id: 13,
-        title: 'The Organic Pool',
+        title: 'The Google Analytics Gap',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You create a Retargeting Audience for "Company Page Visitors (30 Days)".</p>
+            <p>Campaign Manager reports 100 Clicks. Google Analytics reports only 75 Sessions.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Does this audience include people who visited your page via Organic Search (Google SEO), or only those who clicked an Ad?</p>
+            <p>Is this a system error, or a normal discrepancy?</p>
           </div>
         `,
-        answer: /^(both|organic.*paid|all)$/i,
-        hint: 'Page Visitor audiences are built from any visit to the LinkedIn Page, making it a powerful way to monetize organic traffic.',
+        answer: /^normal(discrepancy)?|10-30%?$/i,
+        hint: 'Don\'t stress about this one. It\'s a standard discrepancy. LinkedIn charges for the click on the ad, but GA4 only counts when the page fully loads. You will always lose a few impatient users in that split second.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 14,
-        title: 'The Sender Request',
+        title: 'The Expensive Title',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You are setting up a Message Ad coming from an industry influencer (external to your company).</p>
+            <p>Targeting "Job Title: Marketing Manager" is costing you $15 per click. You want to lower the cost while keeping the audience relevant.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>You cannot activate the campaign until the influencer does what specific action?</p>
+            <p>Instead of "Job Title," what two targeting criteria should you combine to broaden reach and lower CPC?</p>
           </div>
         `,
-        answer: /^approv(e|es|ed|ing)(\s*the)?(\s*sender)?(\s*request)?$/i,
-        hint: 'You must send a request via Campaign Manager. The influencer receives a notification in their personal LinkedIn "My Network" tab and must click "Approve".',
+        answer: /^(job)?function(\+|and)?seniority|seniority(\+|and)?function$/i,
+        hint: 'Job Titles are finite and expensive. If you target the "Marketing" Function plus "Manager" Seniority, you reach the same people (plus some valid variations) at a much more efficient CPM.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 15,
-        title: 'The Missing Demographics',
+        title: 'The PDF Play',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You look at the "Demographics" tab to see which Job Titles are clicking. The report shows titles for 50 clicks, but your campaign has 70 total clicks.</p>
+            <p>You have a whitepaper. You want users to read it without having to leave the LinkedIn Feed or visit your website.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Why are 20 clicks missing from the breakdown?</p>
+            <p>Which specific ad format should you build?</p>
           </div>
         `,
-        answer: /^(privacy.*threshold|reporting.*minimum|threshold|anonymity)$/i,
-        hint: 'LinkedIn does not report demographic data for segments with fewer than ~10 interactions to protect user anonymity.',
+        answer: /^documentad(s)?$/i,
+        hint: 'You should definitely test Document Ads here. They allow the user to read your whitepaper directly in the feed. It\'s a great user experience and builds authority before they even click to download.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 16,
-        title: 'The Audience Network (LAN)',
+        title: 'The 300 Barrier',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You target "Skill: DevOps". You leave "LinkedIn Audience Network" ON. Your ad appears on a "Candy Crush" style mobile game.</p>
+            <p>You have 250 visitors in your "Company Page Visitors" audience. You try to launch a retargeting campaign. It fails to deliver impressions.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Why did this happen?</p>
+            <p>How many more visitors do you need before the campaign will run?</p>
           </div>
         `,
-        answer: /^user\s*targeting(\s*not\s*contextual)?$/i,
-        hint: 'LAN targets the User (who has the DevOps skill), not the Content of the app they are playing.',
+        answer: /^50|fifty$/i,
+        hint: 'You\'re almost there. The system requires a minimum of 300 active members to protect user privacy. Keep driving top-of-funnel traffic, and once you cross 300, this campaign will automatically kick in.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 17,
-        title: 'The Match Rate Disappointment',
+        title: 'The Fatigue Warning',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You upload a list of 10,000 Work Emails (business domains) to Matched Audiences. Your match rate is only 15%.</p>
+            <p>Your ads performed great for the first month. Now, in Week 5, the CTR has dropped below 0.35% and Frequency is above 4.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Why so low?</p>
+            <p>What is the standard advice for how often you should refresh creative?</p>
           </div>
         `,
-        answer: /^personal\s*email(s)?(\s*on\s*profiles?)?$/i,
-        hint: 'Most users register on LinkedIn with their personal (Gmail/Yahoo) emails, not their work emails. Uploading personal emails usually yields a 50%+ match rate.',
+        answer: /^(every)?3to6week(s)?|3-6week(s)?$/i,
+        hint: 'It looks like ad fatigue set in. LinkedIn audiences are smaller than Facebook\'s, so they get bored faster. You should refresh the creative—new images or headlines—every 3 to 6 weeks to keep performance high.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 18,
-        title: 'The Insight Tag',
+        title: 'The Offline Loop',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You install the Insight Tag on your website. You want to retarget visitors to a specific blog post.</p>
+            <p>You generated 100 leads. 5 of them turned into paying customers in Salesforce.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Do you need to set up the audience before you run the ads, or does the tag retroactive-fill the audience?</p>
+            <p>How do you tell the LinkedIn algorithm which specific ads drove those 5 sales?</p>
           </div>
         `,
-        answer: /^retroactive(ly)?(\s*fill)?$/i,
-        hint: 'As long as the Tag was on the site, it has been collecting user data. When you create the "Audience" rule today, it will instantly populate with past visitors (up to 90/180 days).',
+        answer: /^offlineconversion(s)?(api)?$/i,
+        hint: 'This is how you prove ROI. By connecting your CRM to the Offline Conversions API, you can feed those 5 "Closed Won" deals back into LinkedIn. This teaches the algorithm to find more buyers, not just lead-fillers.',
         isLocked: true,
         isSolved: false
       },
-
-      // Week 4: The "CMO" (Strategy & Attribution)
       {
         id: 19,
-        title: 'The "Ghost" Conversion',
+        title: 'The Video Stopwatch',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>A user sees your ad on the LinkedIn Mobile App (View, no click). 2 days later, they visit your site on Desktop and convert. Your Attribution Window is "30-Day Click, 7-Day View". Campaign Manager counts the conversion.</p>
+            <p>Your creative team sends you a 2-minute "Brand Story" video. You know LinkedIn users scroll fast.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Does Google Analytics 4 count it as "Paid Social"? (Yes or No)</p>
+            <p>To maximize performance, you edit the video down. What is the recommended maximum length you should aim for?</p>
           </div>
         `,
-        answer: /^no$/i,
-        hint: 'GA4 relies on Click-IDs (UTMs). Since there was no click (only a view), GA4 sees this as "Direct" or "Organic", causing a discrepancy.',
+        answer: /^(under)?15(second(s)?)?$/i,
+        hint: 'Keep it snappy. Corporate attention spans are short! If you can deliver the value proposition in under 15 seconds, you typically see much higher completion rates and better engagement.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 20,
-        title: 'The Expensive Pacing',
+        title: 'The Audience Goldilocks Zone',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You have a small audience (20k). You set the bid to "Maximum Delivery" (Automated). Your CPM skyrockets to $150+ and your budget vanishes by 10 AM.</p>
+            <p><strong>Audience A:</strong> 10k members.</p>
+            <p><strong>Audience B:</strong> 50k members.</p>
+            <p><strong>Audience C:</strong> 500k members.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Why did this happen?</p>
+            <p>According to general B2B best practices, which audience size is "Ideal"?</p>
           </div>
         `,
-        answer: /^(aggressive.*bid|max.*delivery|automated.*bid)$/i,
-        hint: '"Max Delivery" aims to spend the entire daily budget. If the audience is small, the algorithm bids astronomically high to force impressions, resulting in inefficient spend. Solution: Use Manual Bidding.',
+        answer: /^(audience)?b|20k?-80k?|20,?000-80,?000$/i,
+        hint: 'You want to aim for the sweet spot: 20k to 80k. Anything smaller and the campaign struggles to deliver; anything larger (like Audience C) usually means you\'re being too broad and wasting money.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 21,
-        title: 'The Expiration Date',
+        title: 'The Forgotten Format',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You created a "Website Visitors (90 Days)" audience. A user visits your site on Day 1. They never return.</p>
+            <p>You have a small budget and simply want to keep your logo in front of a target audience to build name recognition. You don't care about clicks, you just want cheap impressions.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>On what day are they automatically removed from the audience?</p>
+            <p>Which ad format should you choose? (Hint: It appears on the right rail).</p>
           </div>
         `,
-        answer: /^(day\s*)?91$/i,
-        hint: 'It is a rolling window. If they don\'t refresh the cookie/visit, they drop out after the specified duration.',
+        answer: /^textad(s)?$/i,
+        hint: 'Don\'t underestimate these! Text Ads have a low click-through rate, but they are incredibly cheap to run. They\'re perfect for keeping your brand "always-on" in the desktop sidebar without draining your main budget.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 22,
-        title: 'The "li_fat_id"',
+        title: 'The Benchmark Check',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You want to upload Offline Conversions (Deals) to LinkedIn to prove ROI. You don't have the user's email.</p>
+            <p><strong>Ad A CTR:</strong> 0.25%.</p>
+            <p><strong>Ad B CTR:</strong> 0.45%.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>What is the specific technical parameter you should have captured in a hidden field on your lead form to ensure a 100% match rate?</p>
+            <p>Which ad is performing "Good" according to standard benchmarks?</p>
           </div>
         `,
-        answer: /^li_fat_id$/i,
-        hint: 'This is the click-identifier cookie. Uploading this ID yields a 100% match, whereas name/company matching is fuzzy and often fails.',
+        answer: /^(ad)?b|0\.45%?|bisgood$/i,
+        hint: 'Ad B is your winner. Generally, 0.40% is the benchmark for "Good" on LinkedIn. Ad A is dragging you down, so pause it and test a new variation.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 23,
-        title: 'The Holdout Test',
+        title: 'The Free Data',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You are running a "Brand Lift" study. LinkedIn creates a "Control Group".</p>
+            <p>You paused all your ads. You are spending $0. You still want to know the Job Titles of the people visiting your corporate website.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>Do users in the Control Group see no ads from you, or do they see Placebo ads?</p>
+            <p>Where in Campaign Manager can you see this data for free?</p>
           </div>
         `,
-        answer: /^(no\s*ads?|ghost.*bid)$/i,
-        hint: 'LinkedIn uses a "Ghost Bid" system where it calculates if a user would have won the auction, but then suppresses the ad. They do not show placebo creative.',
+        answer: /^websitedemographic(s)?$/i,
+        hint: 'This is one of my favorite free features. Even with ads paused, the "Website Demographics" tab analyzes your organic traffic. It\'s a goldmine for market research.',
         isLocked: true,
         isSolved: false
       },
       {
         id: 24,
-        title: 'The Final Boss (ROAS)',
+        title: 'The Strategic Retargeting Flow',
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <ul class="list-disc pl-6 space-y-1">
-              <li>Ad Spend: $10,000</li>
-              <li>Views: 500,000</li>
-              <li>Clicks: 2,000</li>
-              <li>Leads: 200</li>
-              <li>Closed Deals: 10</li>
-              <li>Contract Value: $3,000 each</li>
-            </ul>
+            <p>You are building a full funnel strategy.</p>
+            <p><strong>Step 1:</strong> Show a Video Ad to a cold audience.</p>
+            <p><strong>Step 2:</strong> Retarget users who showed interest with a Lead Gen Form.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
-            <p>The CFO asks for the ROAS (Return on Ad Spend). What is it?</p>
+            <p>According to the "Common Strategy" experts use, what is the specific Video View % threshold you should use to define the retargeting audience?</p>
           </div>
         `,
-        answer: /^(3:1|3\.0?:1|3|300%|3\.0)$/i,
-        hint: 'The ultimate "Pro" skill is ignoring vanity metrics (Views/Clicks) and reporting on Revenue. Calculation: Revenue ($30,000) / Cost ($10,000) = 3.',
+        answer: /^50%?|fiftypercent$/i,
+        hint: 'Here is the classic playbook: Run a video to a broad audience, then retarget anyone who watched at least 50%. If they stayed for half the video, they\'re interested. That\'s your warm audience for the Lead Gen Form.',
         isLocked: true,
         isSolved: false
       }
@@ -480,26 +462,26 @@ export const usePuzzles = () => {
 
   // Unlock puzzles based on date (Advent calendar style)
   const unlockByDate = () => {
-    const today = new Date()
-    const december = today.getMonth() === 11 // December is month 11
-    const day = today.getDate()
+    // const today = new Date()
+    // const december = today.getMonth() === 11 // December is month 11
+    // const day = today.getDate()
 
-    if (!december || day < 1) {
-      // Before December: unlock only Day 1
-      puzzles.value.forEach(puzzle => {
-        puzzle.isLocked = puzzle.id !== 1
-      })
-    } else if (day >= 24) {
-      // After Dec 24: unlock all
+    // if (!december || day < 1) {
+    //   // Before December: unlock only Day 1
+    //   puzzles.value.forEach(puzzle => {
+    //     puzzle.isLocked = puzzle.id !== 1
+    //   })
+    // } else if (day >= 24) {
+    //   // After Dec 24: unlock all
       puzzles.value.forEach(puzzle => {
         puzzle.isLocked = false
       })
-    } else {
-      // During December: unlock days 1 through current day
-      puzzles.value.forEach(puzzle => {
-        puzzle.isLocked = puzzle.id > day
-      })
-    }
+    // } else {
+    //   // During December: unlock days 1 through current day
+    //   puzzles.value.forEach(puzzle => {
+    //     puzzle.isLocked = puzzle.id > day
+    //   })
+    // }
   }
 
   return {
