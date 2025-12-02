@@ -40,7 +40,7 @@
         </Transition>
       </div>
 
-      <!-- Rotation Indicator -->
+      <!-- Rotation Indicator
       <div class="flex justify-center gap-2 mt-auto pt-6 border-t border-gray-800">
         <div
           v-for="(sponsor, index) in sponsors"
@@ -50,7 +50,7 @@
             index === currentSponsorIndex ? 'bg-orange-500 w-6' : 'bg-gray-700'
           ]"
         />
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -90,7 +90,7 @@
       </div>
     </Transition>
 
-    <!-- Rotation Indicator -->
+    <!-- Rotation Indicator
     <div class="flex justify-center gap-1.5 mt-3 pt-3 border-t border-gray-800">
       <div
         v-for="(sponsor, index) in sponsors"
@@ -100,7 +100,7 @@
           index === currentSponsorIndex ? 'bg-orange-500 w-4' : 'bg-gray-700'
         ]"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -116,8 +116,8 @@ interface Sponsor {
 const sponsors: Sponsor[] = [
   {
     name: 'CAPAC',
-    tagline: 'The fastest way to optimize LinkedIn Ads bidding.',
-    description: 'Automate bid optimization. Save hours. Trusted by the top media buyers.',
+    tagline: 'The fastest way to get more results from your LinkedIn Ads budget.',
+    description: 'Automate bid optimization. Save hours. Trusted by the top Linkedin Ads Specialists.',
     cta: 'Try CAPAC for Free',
     url: 'https://www.capac.pro'
   },

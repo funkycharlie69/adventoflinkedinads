@@ -118,18 +118,14 @@
     <!-- Footer -->
     <footer class="bg-darkcard border-t border-gray-800 text-lighttext py-8 px-4 mt-12">
       <div class="max-w-6xl mx-auto text-center relative">
-        <p class="mb-2 font-serif text-sm text-muted">
-          Built by Charles Murillon & Quentin Van Der Perre | Sponsored by
-          <span class="text-lighttext">CAPAC.pro</span>
+        <p class="mb-2 font-montserrat text-sm text-muted">
+          Built by
+          <a href="https://www.linkedin.com/in/charlesmurillon/" target="_blank" class="text-lighttext hover:text-orange-500 transition-colors">Charles Murillon</a>
+          <span @click="resetProgress" class="cursor-default"> & </span>
+          <a href="https://www.linkedin.com/in/quentin-van-der-perre/" target="_blank" class="text-lighttext hover:text-orange-500 transition-colors">Quentin Van Der Perre</a>
+          | Sponsored by
+          <a href="https://www.capac.pro" target="_blank" class="text-lighttext hover:text-orange-500 transition-colors font-semibold">CAPAC.pro</a>
         </p>
-
-        <!-- Reset Button -->
-        <button
-          @click="resetProgress"
-          class="mt-3 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-darkbg text-xs font-serif font-semibold rounded-md transition-colors"
-        >
-          Reset Progress
-        </button>
       </div>
     </footer>
 
