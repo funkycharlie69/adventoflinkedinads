@@ -23,13 +23,20 @@
         <!-- Question -->
         <div class="mb-6 text-lighttext text-lg" v-html="puzzle?.question"></div>
 
-        <!-- Success Message -->
+        <!-- Success Message with Pro Tip -->
         <div
           v-if="showSuccess"
           class="mb-6 p-4 bg-orange-500 bg-opacity-20 border border-orange-500 rounded-md"
         >
-          <p class="text-white font-montserrat font-semibold mb-2">Correct! That's how a LinkedIn Ads Pro thinks.</p>
-          <p class="text-lighttext text-sm mb-3">
+          <p class="text-white font-montserrat font-semibold mb-2">Correct! That's how a LinkedIn Ads pro thinks.</p>
+
+          <!-- Pro Tip -->
+          <div class="mt-4 p-3 bg-orange-500 bg-opacity-10 border-l-4 border-orange-500 rounded">
+            <p class="text-sm font-montserrat font-semibold text-orange-500 mb-2">Pro Tip:</p>
+            <p class="text-lighttext text-sm">{{ puzzle?.hint }}</p>
+          </div>
+
+          <p class="text-lighttext text-sm mt-4 mb-3">
             Check out our sponsors to learn more about tools that can help automate these insights.
           </p>
 
@@ -45,16 +52,62 @@
           </button>
         </div>
 
+        <!-- Confirmation Card for Give Up -->
+        <div
+          v-if="showConfirmGiveUp"
+          class="mb-6 p-6 bg-orange-900 bg-opacity-30 border-2 border-orange-500 rounded-lg"
+        >
+          <p class="text-orange-500 font-montserrat font-bold text-lg mb-3">⚠️ Hold on!</p>
+          <p class="text-lighttext mb-4">
+            If you give up, you won't be able to solve this puzzle anymore. But hey, you'll still get to see the answer and learn the Pro Tip!
+          </p>
+          <p class="text-sm text-gray-400 mb-5 italic">
+            Sometimes it's better to learn than to struggle. Your choice!
+          </p>
+          <div class="flex gap-3">
+            <button
+              @click="confirmGiveUp"
+              class="flex-1 bg-orange-500 text-darkbg px-4 py-3 rounded-md font-montserrat font-semibold hover:bg-orange-600 transition-colors"
+            >
+              Show me the answer
+            </button>
+            <button
+              @click="cancelGiveUp"
+              class="flex-1 bg-gray-700 text-lighttext px-4 py-3 rounded-md font-montserrat font-semibold hover:bg-gray-600 transition-colors border border-gray-600"
+            >
+              Let me try again
+            </button>
+          </div>
+        </div>
+
+        <!-- Failed Message with Pro Tip -->
+        <div
+          v-if="showGaveUp"
+          class="mb-6 p-4 bg-gray-800 bg-opacity-50 border border-gray-600 rounded-md"
+        >
+          <p class="text-gray-400 font-montserrat font-semibold mb-2">🤷 Hey, we've all been there! Here's what you needed to know:</p>
+
+          <!-- Pro Tip -->
+          <div class="mt-4 p-3 bg-gray-700 bg-opacity-30 border-l-4 border-gray-500 rounded">
+            <p class="text-sm font-montserrat font-semibold text-gray-400 mb-2">Pro Tip:</p>
+            <p class="text-lighttext text-sm">{{ puzzle?.hint }}</p>
+          </div>
+
+          <p class="text-gray-500 text-sm mt-4 italic">
+            Better to learn now than to spend budget learning later! 💸
+          </p>
+        </div>
+
         <!-- Error Message -->
         <div
           v-if="showError"
           class="mb-6 p-4 bg-red-900 bg-opacity-30 border border-red-500 rounded-md"
         >
-          <p class="text-red-300 font-montserrat">Not quite. Try again or get a hint!</p>
+          <p class="text-red-300 font-montserrat">Not quite. Try again or give up to see the answer!</p>
         </div>
 
         <!-- Input Form -->
-        <div v-if="!puzzle?.isSolved" class="mb-6">
+        <div v-if="!puzzle?.isSolved && !showGaveUp && !showConfirmGiveUp" class="mb-6">
           <label class="block text-sm font-montserrat font-medium text-lighttext mb-2">
             Your Answer
           </label>
@@ -67,30 +120,24 @@
           />
         </div>
 
-        <!-- Hint Section -->
-        <div v-if="showHint" class="mb-6 p-4 bg-orange-500 bg-opacity-10 border border-orange-500 rounded-md">
-          <p class="text-sm font-montserrat font-semibold text-orange-500 mb-2">Hint:</p>
-          <p class="text-lighttext">{{ puzzle?.hint }}</p>
-        </div>
-
         <!-- Action Buttons -->
         <div class="flex gap-4">
           <button
-            v-if="!puzzle?.isSolved"
+            v-if="!puzzle?.isSolved && !showGaveUp && !showConfirmGiveUp"
             @click="submitAnswer"
             class="flex-1 bg-orange-500 text-darkbg px-6 py-3 rounded-md font-montserrat font-semibold hover:bg-orange-600 transition-colors"
           >
             Submit Answer
           </button>
           <button
-            v-if="!puzzle?.isSolved && !showHint"
-            @click="showHint = true"
+            v-if="!puzzle?.isSolved && !showGaveUp && !showConfirmGiveUp"
+            @click="giveUp"
             class="flex-1 bg-gray-700 text-lighttext px-6 py-3 rounded-md font-montserrat font-semibold hover:bg-gray-600 transition-colors border border-gray-600"
           >
-            Get Hint
+            I give up
           </button>
           <button
-            v-if="puzzle?.isSolved"
+            v-if="puzzle?.isSolved || showGaveUp"
             @click="closeModal"
             class="flex-1 bg-orange-500 text-darkbg px-6 py-3 rounded-md font-montserrat font-semibold hover:bg-orange-600 transition-colors"
           >
@@ -117,24 +164,78 @@ const emit = defineEmits<{
 }>()
 
 const userAnswer = ref('')
-const showHint = ref(false)
+const showGaveUp = ref(false)
 const showSuccess = ref(false)
 const showError = ref(false)
+const showConfirmGiveUp = ref(false)
 
-// Reset state when modal opens/closes
+// Reset state and restore previous state when modal opens/closes
 watch(() => props.isOpen, (newVal) => {
-  if (newVal) {
+  if (newVal && props.puzzle) {
     userAnswer.value = ''
-    showHint.value = false
-    showSuccess.value = false
     showError.value = false
+
+    // Check if puzzle was given up before
+    const gaveUpPuzzles = getGaveUpPuzzles()
+    const hasGivenUp = gaveUpPuzzles.includes(props.puzzle.id)
+
+    if (hasGivenUp) {
+      showGaveUp.value = true
+      showSuccess.value = false
+    } else if (props.puzzle.isSolved) {
+      // If puzzle was already solved, show success message with Pro Tip and trigger confetti
+      showGaveUp.value = false
+      showSuccess.value = true
+      // Trigger confetti for reopened solved puzzles
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      })
+    } else {
+      showGaveUp.value = false
+      showSuccess.value = false
+    }
   }
 })
+
+// Get gave up puzzles from localStorage
+const getGaveUpPuzzles = (): number[] => {
+  if (import.meta.client) {
+    const saved = localStorage.getItem('advent-gaveup')
+    if (saved) {
+      try {
+        const gaveUpIds = JSON.parse(saved)
+        return Array.isArray(gaveUpIds) ? gaveUpIds : []
+      } catch (e) {
+        return []
+      }
+    }
+  }
+  return []
+}
+
+// Save gave up puzzle to localStorage
+const saveGaveUp = (puzzleId: number) => {
+  if (import.meta.client) {
+    const gaveUpPuzzles = getGaveUpPuzzles()
+    if (!gaveUpPuzzles.includes(puzzleId)) {
+      gaveUpPuzzles.push(puzzleId)
+      localStorage.setItem('advent-gaveup', JSON.stringify(gaveUpPuzzles))
+    }
+  }
+}
 
 const { checkAnswer } = usePuzzles()
 
 const submitAnswer = () => {
   if (!props.puzzle || !userAnswer.value.trim()) return
+
+  // Prevent solving if already gave up
+  const gaveUpPuzzles = getGaveUpPuzzles()
+  if (gaveUpPuzzles.includes(props.puzzle.id)) {
+    return
+  }
 
   const isCorrect = checkAnswer(props.puzzle.id, userAnswer.value)
 
@@ -160,36 +261,49 @@ const closeModal = () => {
   emit('close')
 }
 
+// Give up function - shows confirmation first
+const giveUp = () => {
+  showConfirmGiveUp.value = true
+}
+
+// Confirm give up - marks puzzle as failed and shows Pro Tip
+const confirmGiveUp = () => {
+  if (!props.puzzle) return
+
+  showConfirmGiveUp.value = false
+  showGaveUp.value = true
+  showError.value = false
+  showSuccess.value = false
+
+  // Save to localStorage so puzzle stays "gave up" permanently
+  saveGaveUp(props.puzzle.id)
+}
+
+// Cancel give up
+const cancelGiveUp = () => {
+  showConfirmGiveUp.value = false
+}
+
 // Share on LinkedIn
 const shareOnLinkedIn = () => {
   if (!props.puzzle) return
 
-  const text = `Just solved Day ${props.puzzle.id} of Advent of LinkedIn Ads! 🎯
+  const text = `Just solved Day ${props.puzzle.id} of Advent of LinkedIn Ads! 🎄
 
 "${props.puzzle.title}"
 
 Testing my LinkedIn Ads knowledge with 24 daily puzzles.
 
-Try it yourself (100% private, runs in your browser): https://adventoflinkedinads.com
+Try it yourself (100% private, runs in your browser): https://adventoflinkedinads.vercel.app
 
 #LinkedInAds #B2BMarketing #DigitalMarketing`
 
-  const url = 'https://adventoflinkedinads.com'
+  const url = 'https://adventoflinkedinads.vercel.app'
 
-  // Copy full text to clipboard
   if (import.meta.client) {
-    navigator.clipboard.writeText(text).catch(() => {
-      // Silently fail if clipboard access denied
-    })
-
-    // Open LinkedIn share dialog with URL
-    const linkedInShareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`
+    // Use LinkedIn's intent URL with text parameter
+    const linkedInShareUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(text)}`
     window.open(linkedInShareUrl, '_blank', 'width=600,height=600')
-
-    // Show instruction
-    setTimeout(() => {
-      alert('💡 Tip: Press Ctrl/Cmd+V to paste your achievement message into the LinkedIn post!')
-    }, 500)
   }
 }
 </script>

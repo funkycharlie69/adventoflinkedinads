@@ -18,13 +18,13 @@ export const usePuzzles = () => {
         question: `
           <div class="space-y-3">
             <p class="font-semibold text-orange-500">Scenario:</p>
-            <p>You are reviewing your delivery report. You see clicks coming from mobile gaming apps and third-party websites, which are resulting in high bounce rates.</p>
+            <p>You are reviewing your website traffic report. You see clicks coming from mobile gaming apps and third-party websites, which are resulting in high bounce rates.</p>
             <p class="font-semibold text-orange-500 mt-4">The Puzzle:</p>
             <p>Which specific placement setting must you turn OFF to stop this?</p>
           </div>
         `,
         answer: /^(linkedin)?audiencenetwork|lan|l\.?a\.?n\.?$/i,
-        hint: 'Go ahead and turn LAN off. In my experience, it drives a lot of accidental clicks from mobile games rather than high-intent B2B traffic. You want your ads appearing right in the professional news feed.',
+        hint: 'Go ahead and turn LAN (LinkedIn Audience Network) off. You want your ads to show on the LinkedIn feed, not on mobile games and random websites. LAN is one of the biggest waste of ad spend on LinkedIn Ads. Check your campaigns and make sure it is off.',
         isLocked: true,
         isSolved: false
       },
@@ -41,7 +41,7 @@ export const usePuzzles = () => {
             <p>Which setup results in a smaller, more specific audience?</p>
           </div>
         `,
-        answer: /^(setup)?b|and|b\(and\)$/i,
+        answer: /^((setup)?b|and|b\(and\))$/i,
         hint: 'Think of it this way: "OR" makes the audience bigger (quantity), "AND" makes it smaller (quality). For this niche target, you definitely want "AND" to ensure they have both qualifications.',
         isLocked: true,
         isSolved: false
@@ -415,12 +415,20 @@ export const usePuzzles = () => {
     if (import.meta.client) {
       const saved = localStorage.getItem('advent-progress')
       if (saved) {
-        const solvedIds = JSON.parse(saved)
-        puzzles.value.forEach(puzzle => {
-          if (solvedIds.includes(puzzle.id)) {
-            puzzle.isSolved = true
+        try {
+          const solvedIds = JSON.parse(saved)
+          // Ensure solvedIds is an array
+          if (Array.isArray(solvedIds)) {
+            puzzles.value.forEach(puzzle => {
+              if (solvedIds.includes(puzzle.id)) {
+                puzzle.isSolved = true
+              }
+            })
           }
-        })
+        } catch (e) {
+          // If parsing fails, clear corrupted data
+          localStorage.removeItem('advent-progress')
+        }
       }
     }
   }
@@ -462,26 +470,26 @@ export const usePuzzles = () => {
 
   // Unlock puzzles based on date (Advent calendar style)
   const unlockByDate = () => {
-    // const today = new Date()
-    // const december = today.getMonth() === 11 // December is month 11
-    // const day = today.getDate()
+    const today = new Date()
+    const december = today.getMonth() === 11 // December is month 11
+    const day = today.getDate()
 
-    // if (!december || day < 1) {
-    //   // Before December: unlock only Day 1
-    //   puzzles.value.forEach(puzzle => {
-    //     puzzle.isLocked = puzzle.id !== 1
-    //   })
-    // } else if (day >= 24) {
-    //   // After Dec 24: unlock all
+    if (!december || day < 1) {
+      // Before December: unlock only Day 1
+      puzzles.value.forEach(puzzle => {
+        puzzle.isLocked = puzzle.id !== 1
+      })
+    } else if (day >= 24) {
+      // After Dec 24: unlock all
       puzzles.value.forEach(puzzle => {
         puzzle.isLocked = false
       })
-    // } else {
-    //   // During December: unlock days 1 through current day
-    //   puzzles.value.forEach(puzzle => {
-    //     puzzle.isLocked = puzzle.id > day
-    //   })
-    // }
+    } else {
+      // During December: unlock days 1 through current day
+      puzzles.value.forEach(puzzle => {
+        puzzle.isLocked = puzzle.id > day
+      })
+    }
   }
 
   return {

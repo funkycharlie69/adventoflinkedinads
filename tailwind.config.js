@@ -4,9 +4,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        spartan: ['"League Spartan"', 'sans-serif'],
-        montserrat: ['Montserrat', 'sans-serif'],
-        sans: ['"Open Sans"', 'sans-serif']
+        christmas: ['"Mountains of Christmas"', 'cursive'],
+        serif: ['Merriweather', 'serif'],
+        sans: ['Merriweather', 'sans-serif'],
       },
       colors: {
         orange: {
